@@ -305,7 +305,7 @@ if (dn == 1)
    tempe = tempe + "Night, ";
 tempe = tempe + descriere;
 if (nori > 0) 
-tempe = tempe + " (" + nori + "%)";
+tempe = tempe + " (clouds: " + nori + "%)";
 tempe = tempe + ", temperature: ";
 if (temperatura > 0) tempe = tempe + "+";
 tempe = tempe + tempint + ","+ temprest;
