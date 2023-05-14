@@ -306,7 +306,8 @@ if ((ora <= night1) and (ora > night2))  // if can be shown the extra info
     delay(100);
   }
 else
-if ((minut%minscroll == 0) and (aratadata == 1))  // minscroll = 5 -> every 5 minutes
+if (aratadata == 1) 
+if ((secundar > 35) and (minut%minscroll == 0))  // minscroll = 5 -> every 5 minutes
 {
 matrix.fillScreen(0);
   for (x; x > -ltempe ; x--)
