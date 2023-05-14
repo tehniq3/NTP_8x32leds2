@@ -5,6 +5,7 @@
  * v.2.1.a - compute lengh of string + extract more info from opemweathermap data
  * v.2.2 - sunset/sunrise time: not used anymore data from SolaCalculator library, used opemweathermap data
  * v.2.3 - weather info shown rarely (5 minutes, for example) and not in the midle of the night (00-05 hour)
+ * v.2.3a - solved scrolling lont time ;)
 */
 
 #include <Adafruit_GFX.h>
@@ -75,7 +76,7 @@ const unsigned long retryDelay  = 5000;           // retry 5 sec later if time q
 WiFiClient client;
 char servername[]="api.openweathermap.org";              // remote weather server we will connect to
 String result;
-String APIKEY = "ca55295c4a4b9a681dce2688e0751dde";                                 
+String APIKEY =  "ca55295c4a4b9a681dce2688e0751dde";                                 
 String CityID = "680332"; // Craiova city                       
 int  fetchweatherflag = 0; 
 String weatherDescription ="";
@@ -299,14 +300,14 @@ tempe = tempe + directie +  ((char)247) + ") ";
 int ltempe = 6*tempe.length(); // https://reference.arduino.cc/reference/en/language/variables/data-types/string/functions/length/
 //x = matrix.width();
 
-
 if ((ora <= night1) and (ora > night2))  // if can be shown the extra info
   {
     Serial.print("/");
     delay(100);
   }
 else
-if (aratadata == 1) 
+if (aratadata == 1)
+{ 
 if ((secundar > 35) and (minut%minscroll == 0))  // minscroll = 5 -> every 5 minutes
 {
 matrix.fillScreen(0);
@@ -323,6 +324,7 @@ matrix.fillScreen(0);
   Serial.println("show -> 0");
   culoare++;
   if (culoare > 6) culoare = 0;
+}
 }
 
 if (millis() - tpsoare >= tpinterogare2)
