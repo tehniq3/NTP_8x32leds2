@@ -256,7 +256,7 @@ void loop() {
     if (WiFi.status() != WL_CONNECTED) Serial.println("WiFi disconnected!");
     //ESP.restart();
   // WiFi.disconnect();
-   delay(1000);
+  // delay(1000);
   // WiFi.reconnect();
     delay(500);
   }
