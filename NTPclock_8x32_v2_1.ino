@@ -2,6 +2,7 @@
  * v.1 - test for have a stable version
  * v.2.0 - changed almost all.. e.g from FastLED to Adafruit_NeoMatrix libraries
  * v.2.1 - added weather info (scrolling) from openweathermap
+ *v.2.1.ok - adder correct day in month
 */
 
 #include <Adafruit_GFX.h>
@@ -112,7 +113,7 @@ int x;
 int ora = 20;
 int minut = 24;
 int secundar = 0;
-int zi, luna, an;
+int zi, zi2, luna, an;
 
 // Location - Craiova: 44.317452,23.811336
 double latitude = 44.31;
@@ -244,6 +245,8 @@ if (ora/10 == 0)
 if (minut/10 == 0) 
   ceas = ceas + "0";
   ceas = ceas + minut;
+if (zi2 == 0)
+   getDay();
 
 matrix.fillScreen(0);
 matrix.setTextColor(colors[culoare]);
@@ -261,9 +264,9 @@ Soare();
 }
 
 String data = "";
-if (zi/10 == 0) 
+if (zi2/10 == 0) 
   data = data + "0";
-  data = data + zi;
+  data = data + zi2;
   data = data + ".";
 if (luna/10 == 0) 
   data = data + "0";
@@ -491,4 +494,13 @@ Serial.print("%RH. ");
 Serial.print(presiune);
 Serial.println("mmHg ");
 // check https://github.com/tehniq3/matrix_clock_weather_net/blob/master/LEDMatrixV2ro2a/weather.ino
+}
+
+void getDay() {
+  time_t rawtime = timeClient.getEpochTime();
+  struct tm * ti;
+  ti = localtime (&rawtime);
+  zi2 = ti->tm_mday;
+  Serial.print("Month day: ");
+  Serial.println(zi2);
 }
