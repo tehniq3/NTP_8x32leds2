@@ -4,6 +4,7 @@
  * v.2.1 - added weather info (scrolling) from openweathermap
  * v.2.1.a - compute lengh of string + extract more info from opemweathermap data
  * v.2.2 - sunset/sunrise time: not used anymore data from SolaCalculator library, used opemweathermap data
+ * v.2.2.ok - added correct day in month
 */
 
 #include <Adafruit_GFX.h>
@@ -114,7 +115,7 @@ int x;
 int ora = 20;
 int minut = 24;
 int secundar = 0;
-int zi, luna, an;
+int zi, zi2, luna, an;
 
 byte aratadata = 0;
 byte culoare = 1;
@@ -239,7 +240,9 @@ Serial.println("Weather site is check !");
 ora = timeClient.getHours();
 minut = timeClient.getMinutes();
 secundar = timeClient.getSeconds();
-
+if (zi2 == 0)
+getDay();
+ 
 String ceas = "";
 if (ora/10 == 0) 
   ceas = ceas + "0";
@@ -268,9 +271,9 @@ DST0 = DST;
 }
 
 String data = "";
-if (zi/10 == 0) 
+if (zi2/10 == 0) 
   data = data + "0";
-  data = data + zi;
+  data = data + zi2;
   data = data + ".";
 if (luna/10 == 0) 
   data = data + "0";
@@ -521,4 +524,13 @@ Serial.print(" => ");
   Serial.println(dn);
  Serial.print(" (0 = night / 1 = day ! ");
  Serial.println(" -------------------");
+}
+
+void getDay() {
+  time_t rawtime = timeClient.getEpochTime();
+  struct tm * ti;
+  ti = localtime (&rawtime);
+  zi2 = ti->tm_mday;
+  Serial.print("Month day: ");
+  Serial.println(zi2);
 }
