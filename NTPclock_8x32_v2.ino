@@ -1,7 +1,7 @@
 /* original design by niq_ro: https://github.com/tehniq3/
  * v.1 - test for have a stable version
- * v.2.0 - change almost all.. e.g from FastLED to Adafruit_NeoMatrix libraries
- * 
+ * v.2.0 - changed almost all.. e.g from FastLED to Adafruit_NeoMatrix libraries
+ * v.2.ok - added correct day in month
 */
 
 #include <Adafruit_GFX.h>
@@ -89,7 +89,7 @@ int x;
 int ora = 20;
 int minut = 24;
 int secundar = 0;
-int zi, luna, an;
+int zi, zi2, luna, an;
 
 // Location - Craiova: 44.317452,23.811336
 double latitude = 44.31;
@@ -200,6 +200,9 @@ ora = timeClient.getHours();
 minut = timeClient.getMinutes();
 secundar = timeClient.getSeconds();
 
+ if (zi2 == 0)
+getDay();
+ 
 String ceas = "";
 if (ora/10 == 0) 
   ceas = ceas + "0";
@@ -228,9 +231,9 @@ Soare();
 }
 
 String data = "";
-if (zi/10 == 0) 
+if (zi2/10 == 0) 
   data = data + "0";
-  data = data + zi;
+  data = data + zi2;
   data = data + ".";
 if (luna/10 == 0) 
   data = data + "0";
@@ -335,4 +338,13 @@ boolean night() {
     return true;  
     else
     return false;  
+}
+
+void getDay() {
+  time_t rawtime = timeClient.getEpochTime();
+  struct tm * ti;
+  ti = localtime (&rawtime);
+  zi2 = ti->tm_mday;
+  Serial.print("Month day: ");
+  Serial.println(zi2);
 }
